@@ -1,0 +1,24 @@
+.vision{
+    background-color: #F4F7FC;
+    margin-top: 2rem;
+    margin-bottom: 0;
+    height: 100vh;
+    z-index: 800;
+    margin-bottom: 200px;
+}
+
+.vision_img{
+    position: relative;
+    max-width: 100%;
+}
+.vision_img > img{
+    object-fit: contain;
+    max-width: 100%;
+}
+.vision_discription > button{
+    background-color: #3A4265;;
+    color: white;
+}
+.vision_discription > button:hover{
+    background-color: #6859F3;
+}
