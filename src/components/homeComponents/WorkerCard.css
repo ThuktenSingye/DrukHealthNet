@@ -1,0 +1,57 @@
+.workerCard{
+ flex-wrap: wrap;   
+}
+.workerCard_content{
+    position: relative;
+    width: 12rem ;
+    height: 12rem ;
+    margin: 0 2rem;
+
+}
+.workerCard_content .img_wrapper > img{   
+    width: 12rem;
+    height: 12rem;
+    object-fit: cover;
+    resize: both;
+}
+.workerCard_content:hover .img_wrapper{
+    transform: translate(-2rem, -2rem);
+}
+.workerCard_content:hover .user_info{
+    transform: translate(2rem, 2rem);
+}
+.img_wrapper{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    transition: all 0.5s ease-in-out;
+    object-fit: cover;
+}
+
+.user_info{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    z-index: 1;
+    transition: 0.5s ease-in-out;
+    padding-bottom: 1rem;
+}
+.user_info > h2{
+    font-size: 0.9rem;
+    color: #3A4265;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+.user_info h2 > span{
+    color: #6859F3 !important;
+    font-size: 0.8rem;
+    font-weight: 400;
+    letter-spacing: 1px;
+}
+ 

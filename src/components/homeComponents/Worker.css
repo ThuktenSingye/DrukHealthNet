@@ -1,0 +1,14 @@
+.worker{
+    margin: 1rem auto;
+    max-width: 1000px;
+    
+}
+.carousel{
+    display: flex;
+    gap: 100px !important;
+    padding: 10px;
+}
+.carousel-item{
+    width: 100%;
+    padding: 5rem;
+}
