@@ -1,0 +1,36 @@
+
+.announcement-widget{
+    position: relative;
+    opacity: 1;
+    object-fit: contain;
+    z-index: 0;
+    color: white;
+    height: 15rem;
+    padding: 1rem;
+    border-radius: 1rem;
+    transition: transform 450ms;
+}
+.announcement-widget:hover{
+    transform: scale(1.08);
+}
+.announcement-widget-content{
+    position: sticky;
+    width: 100%;
+    opacity: 1 !important;
+    z-index: 2;
+}
+.announcement-widget-content > h1{
+    font-size: 2rem;
+    justify-self: flex-end;
+}
+.announcement-widget-content > Button{
+    align-self: flex-end !important;
+    background-color: #3A4265;
+    color: white;
+    font-size: 0.8rem;
+}
+.announcement-widget-content > button:hover{
+    background-color: #6859F3;
+    color: white;
+    transition: 0.3s ease-in-out;
+}
