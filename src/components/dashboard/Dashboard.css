@@ -1,0 +1,43 @@
+
+.owl-item{
+    padding: 10px;
+    transition: transform ease-in-out 450ms;
+}
+.owl-item:hover{
+    transform: scale(1.08);
+}
+.item{
+    position: relative !important;
+}
+.divider{
+    color: red !important;
+}
+.dashboard button{
+    background-color: #3A4265;
+    color: white;
+    
+}
+.dashboard .MuiCardHeader-title{
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.dashboard button:hover{
+    background-color: #6859F3;
+}
+.owl-prev{
+    width: 2rem;
+    height: 2rem;
+    margin-right: 1rem;
+}
+.owl-prev:hover{
+    background-color: #6859F3 !important;
+}
+.owl-next{
+    width: 2rem;
+    height: 2rem;
+
+}
+.owl-next:hover{
+    background-color: #6859F3 !important;
+}
