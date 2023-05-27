@@ -1,0 +1,13 @@
+.fileUpload{
+    padding: 1rem;
+    background-color: white;
+    border-radius: 1rem;   
+}
+.MuiChip-root{
+    cursor: pointer;
+    transition: ease-out 450ms;
+}
+.MuiChip-root:hover{
+    border: 1px solid lightgray;
+    transform: scale(1.08);
+}

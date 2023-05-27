@@ -1,0 +1,16 @@
+.healthDetails{
+    padding: 1rem;
+    background-color: white;
+    border-radius: 1rem;
+
+}
+.healthDetails > div{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.healthDetails > div > p{
+    margin-top: 1rem;
+}
