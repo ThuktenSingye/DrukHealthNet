@@ -21,13 +21,14 @@ import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Divider from '@mui/material/Divider';
+
 import { Button } from '@mui/material';
 
 const dashInfo= [
-  {title:'Medical Record', color:'#FFD500'},
-  {title: 'Appointment', color: '#398AC6'},
-  {title: 'Priscription', color:'#FF971C'},
-  {title: 'Doctor', color: '#3CB04C'}
+  {title:'Medical Record', color:'#FFD500', id: 1},
+  {title: 'Appointment', color: '#398AC6', id:2},
+  {title: 'Priscription', color:'#FF971C', id: 3},
+  {title: 'Doctor', color: '#3CB04C', id: 4}
 ]
 
 
@@ -41,14 +42,12 @@ function Dashboard() {
       loop={true}
       margin={10}
       nav={true}
-      autoplayTimeout={3}
+      autoplaySpeed={1000}
       items={3}
-      autoPlay={true}
-      animateOut="fadeOut"
-      animateIn="fadeIn"
+      navSpeed={1000}
       >
         {dashInfo.map((dashCard)=>(
-          <div className="item me-3">
+          <div className="item me-3" key={dashCard.id}>
              <Card>
             <div className="header d-flex ">
               <CardHeader title={dashCard.title} className='ps-4' sx={{color:'#6859F3'}} />
