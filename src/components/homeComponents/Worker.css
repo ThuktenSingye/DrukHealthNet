@@ -3,12 +3,12 @@
     max-width: 1000px;
     
 }
-.carousel{
+.worker-carousel{
     display: flex;
     gap: 100px !important;
     padding: 10px;
 }
-.carousel-item{
+.worker-carousel-item{
     width: 100%;
     padding: 5rem;
 }

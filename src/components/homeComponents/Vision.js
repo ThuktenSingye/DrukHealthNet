@@ -16,8 +16,7 @@ function Vision() {
             debitis unde sit cum? Quam repellat illo enim, fugit officia
             alias minus! Laboriosam, incidunt recusandae!</p>
             <Button className='btn-lg rounded-1'>Read More</Button>
-        </div>
-         
+        </div>        
        </div>
     </div>
   )

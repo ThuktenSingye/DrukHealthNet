@@ -11,17 +11,17 @@ import Carousel from 'react-bootstrap/Carousel';
 function Banner() {
   return (
     <div className='banner'>
-    <Carousel fade interval={5000} >
-      <Carousel.Item>
-        <BannerCard bannerImg={bannerImg1}/>
-      </Carousel.Item>
-      <Carousel.Item>
-      <BannerCard bannerImg={bannerImg2}/>
-      </Carousel.Item>
-      <Carousel.Item>
-      <BannerCard bannerImg={bannerImg3}/>
-      </Carousel.Item>
-    </Carousel>       
+      <Carousel fade interval={5000} >
+        <Carousel.Item>
+          <BannerCard bannerImg={bannerImg1}/>
+        </Carousel.Item>
+        <Carousel.Item>
+        <BannerCard bannerImg={bannerImg2}/>
+        </Carousel.Item>
+        <Carousel.Item>
+        <BannerCard bannerImg={bannerImg3}/>
+        </Carousel.Item>
+      </Carousel>       
     </div>
   )
 }

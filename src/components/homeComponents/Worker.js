@@ -40,12 +40,12 @@ function Worker() {
  
   return (
     <div className='worker '>
-      <h1 class="display-5 fw-semibold text-center">Staff and Worker</h1>
-      <Carousel fade interval={5000} >
+      <h1 className="display-5 fw-semibold text-center">Staff and Worker</h1>
+      <Carousel fade interval={5000} className='worker-carousel'>
       {
         users.map((userSet)=>(
-          <Carousel.Item >
-            <WorkerCard userSet={userSet}/>
+          <Carousel.Item className='worker-carousel-item'>
+            <WorkerCard userSet={userSet} />
           </Carousel.Item>
         ))
       }

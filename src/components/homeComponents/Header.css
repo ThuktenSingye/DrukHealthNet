@@ -1,5 +1,6 @@
 .header{
-    z-index: 1000;
+    z-index: 5000;
+    /* height: 100px;  */
 }
 .header_right_search > label > .MuiSvgIcon-root{
     color: lightgray;
@@ -22,15 +23,26 @@
 .header_right_search > label > input:focus + .searchIcon{
     color: black;
 }
-
-/* removing the outer border of dropdown  */
+.sideGroup{
+    display: none !important;
+}
+removing the outer border of dropdown  
 .dropdown-toggle:focus-within{
 
     border: none !important;
 }
 .MuiButtonBase-root{
     border-radius: 50% !important;
-}
+} 
 .dropdown-menu{
-    /* styliing for dropdown menu */
+    /* styliing for dropdown menu  */
+}
+
+@media screen and (max-width: 746px){
+    .title{
+        display: none;
+    }
+    .sideGroup{
+        display: inline-block !important;
+    }
 }

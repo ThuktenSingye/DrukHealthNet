@@ -1,6 +1,6 @@
 import React from 'react'
 import './WorkerCard.css'
-import Image from 'react-bootstrap/Image'
+// import Image from 'react-bootstrap/Image'
 function WorkerCard({userSet}) {
 
   return (
