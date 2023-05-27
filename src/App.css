@@ -1,10 +1,34 @@
 *{
   box-sizing: border-box;
-  
 }
 body{
   padding: 0;
   margin: 0;
   scroll-behavior: smooth;
   overflow-x: hidden;
+}
+.app{
+  height: 100vh;
+  overflow-y: hidden;
+}
+.home-content{
+  height: 100vh;
+}
+.mid-container{
+  /* height: 100%; */
+  overflow-y: scroll !important;
+  flex: 1;
+  z-index: 0;
+  padding: 1rem;
+}
+.mid-container::-webkit-scrollbar{
+  /* dont display scrollbar but keep the function of scrol  */
+  display: none;
+}
+.butn{
+  background-color: #3A4265;
+  color: white;
+}
+.butn:hover{
+  background-color: #6859F3;
 }
