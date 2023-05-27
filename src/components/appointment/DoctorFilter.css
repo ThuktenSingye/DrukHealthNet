@@ -1,0 +1,12 @@
+.filter_cat{
+    border-bottom-left-radius: 50% !important;
+    border-bottom-right-radius: 50% !important;
+}
+.doctor_filter .filter_btn{
+    background-color:  #3A4265;
+    color: white;
+}
+.doctor_filter .filter_btn:hover{
+    background-color:  #6859F3;
+    color: white;
+}
