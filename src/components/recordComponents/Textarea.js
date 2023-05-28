@@ -1,7 +1,8 @@
 import React from 'react'
 import TextField from '@mui/material/TextField';
 // import PatientDetails from './PatientDetails';
-function Textarea({id, label}) {
+function Textarea(props) {
+  const{id, label, value, setValue} = props
   return (
     <div>
         <TextField
@@ -12,7 +13,8 @@ function Textarea({id, label}) {
             required
             multiline
             rows={4}
-        
+            value={value}
+            onChange={(e)=>setValue(e.target.value)}        
             variant="outlined"
             />
      

@@ -6,7 +6,6 @@ function VitalSignTextField({id, label, reg}) {
     <div>
      
         <TextField id={id} 
-          // error
             InputProps={{
             endAdornment: (
                 <InputAdornment position="end">
@@ -17,9 +16,7 @@ function VitalSignTextField({id, label, reg}) {
             variant='standard'
             label={`${label}`}
             type="number"
-            // InputLabelProps={{
-            // shrink: true,
-            // }}
+            
         />
     </div>
   )
