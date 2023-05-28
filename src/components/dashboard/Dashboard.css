@@ -5,6 +5,7 @@
     border-radius: 0.8rem;
 }
 .owl-item{
+    height: 100% !important;
     padding: 10px;
     transition: transform ease-in-out 450ms;
 }

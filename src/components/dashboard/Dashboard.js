@@ -37,7 +37,7 @@ function Dashboard() {
     <div className='dashboard'>
       <h1>Overview</h1>
       <OwlCarousel
-      className="owl-theme "
+      className="owl-theme  "
       dots={true}
       loop={true}
       margin={10}
@@ -47,7 +47,7 @@ function Dashboard() {
       navSpeed={1000}
       >
         {dashInfo.map((dashCard)=>(
-          <div className="item me-3" key={dashCard.id}>
+          <div className="item me-3" key={dashCard.id} style={{height: '100%'}}>
              <Card>
             <div className="header d-flex ">
               <CardHeader title={dashCard.title} className='ps-4' sx={{color:'#6859F3'}} />
