@@ -43,8 +43,8 @@ function Worker() {
       <h1 className="display-5 fw-semibold text-center">Staff and Worker</h1>
       <Carousel fade interval={5000} className='worker-carousel'>
       {
-        users.map((userSet)=>(
-          <Carousel.Item className='worker-carousel-item'>
+        users.map((userSet, index)=>(
+          <Carousel.Item className='worker-carousel-item' key={index}>
             <WorkerCard userSet={userSet} />
           </Carousel.Item>
         ))

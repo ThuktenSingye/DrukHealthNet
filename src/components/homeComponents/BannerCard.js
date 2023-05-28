@@ -1,11 +1,18 @@
 import React from 'react'
 import "./BannerCard.css"
 import Card from 'react-bootstrap/Card';
-import { NavLink  } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 function BannerCard({bannerImg}) {
+  const navigate = useNavigate();
+  const handleLoginClick = (e)=>{
+    e.preventDefault()
+    navigate('/login')
+  }
+  const handleSignupClick = (e)=>{
+    e.preventDefault()
+    navigate('/signup')
+  }
   return (
     <div className='bannerCard'>
          <Card className="bg-dark text-white">
@@ -24,8 +31,8 @@ function BannerCard({bannerImg}) {
                 </Card.Text>
                 {/* className=`user ? explore: enter` */}
                 <div className='enter mt-4 d-flex gap-4'>
-                  <Button  className='btn-lg lead text-white rounded-1'>Login</Button>
-                  <Button  className='btn-lg lead text-white rounded-1'>Signup</Button>
+                  <Button  className='btn-lg lead text-white rounded-1' onClick={handleLoginClick}>Login</Button>
+                  <Button  className='btn-lg lead text-white rounded-1' onClick={handleSignupClick}>Signup</Button>
                   
                 </div>
             </Card.ImgOverlay>
