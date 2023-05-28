@@ -5,3 +5,10 @@
     margin-top: 1rem;
 
 }
+.showbtn{
+    background-color: #3A4265 !important;
+    color: white !important;
+}
+.showbtn:hover{
+    background-color: #6859F3 !important;
+}

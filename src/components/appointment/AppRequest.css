@@ -9,3 +9,10 @@
 
     box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
 }
+.showbtn{
+    background-color: #3A4265 !important;
+    color: white !important;
+}
+.showbtn:hover{
+    background-color: #6859F3 !important;
+}
