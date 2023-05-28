@@ -9,36 +9,38 @@ import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
+import { NavLink, Link } from 'react-router-dom';
 function Sidebar({showSidebar, setShowSidebar, toggleSidebar}) {
    
   return (
     <div className={`sidebar ${showSidebar? 'show':'no'}`}>
       <List>
-      <ListItem button className='rounded-0'>
+      <ListItem button className='rounded-0 d-flex justify-content-start'>
         <ListItemAvatar className='me-3'>
           <Avatar>
             <ApprovalIcon />
           </Avatar>
         </ListItemAvatar>
-        <ListItemText primary="Appointment" />
+        <NavLink to='/appointment' style={{margin: '0', padding:'0',textDecoration:'none', color:'black'}}><ListItemText primary='Appointment'/></NavLink>
       </ListItem>
       <Divider variant="inset" component="li" />
-      <ListItem button className='rounded-0'>
+      <ListItem button className='rounded-0 d-flex justify-content-start'>
         <ListItemAvatar className='me-3'>
           <Avatar>
             <AssignmentIndIcon />
           </Avatar>
         </ListItemAvatar>
-        <ListItemText primary="Medical Record"  />
+        <NavLink to='/record' style={{margin: '0', padding:'0',textDecoration:'none', color:'black'}}><ListItemText primary='Medical Record'/></NavLink>
+  
       </ListItem >
       <Divider variant="inset" component="li" />
-      <ListItem button className='rounded-0'>
+      <ListItem button className='rounded-0 d-flex justify-content-start'>
         <ListItemAvatar className='me-3'>
           <Avatar>
             <AssignmentIndIcon />
           </Avatar>
         </ListItemAvatar>
-        <ListItemText primary="Doctor"  />
+        <NavLink to='/doctor' style={{margin: '0', padding:'0', textDecoration:'none', color:'black'}}><ListItemText primary='Doctor'/></NavLink>
       </ListItem>
       <Divider variant="inset" component="li" />
     </List>

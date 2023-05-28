@@ -13,17 +13,25 @@ import log from '../../images/login_signup.png'
 import Button from '@mui/material/Button';
 import { useState } from 'react';
 import './Signup.css'
+import { useRef } from 'react';
 // import useSignup hook
 import useSignup from '../../hooks/useSignup';
-import { event } from 'jquery';
-
+import AvatarEditor from 'react-avatar-editor';
+import Badge from '@mui/material/Badge';
+import { Avatar } from '@material-ui/core';
+import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
+import IconButton from '@mui/material/IconButton';
+import user from '../../images/user.png'
+import user2 from '../../images/user2.png'
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
 function Signup() {
   const{error, isPending, signup}= useSignup();
-
+  const [imageSrc, setImageSrc] = useState(user2);
+  
   const signupSubmit = (e)=>{
     e.preventDefault()
     // form validation
-    signup(formDetails)
+    signup(formDetails, imageSrc)
 
   }
   // store the form detial
@@ -44,12 +52,48 @@ function Signup() {
       [fieldName]: fieldValue,
     });
   };
-  // console.log(gender)
+  
+  const handleImageSelect = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setImageSrc(file)
+      // const reader = new FileReader();
+      // reader.readAsDataURL(file);
+      // reader.onload = () => {
+      //   setImageSrc(reader.result);
+        
+      // };
+      // reader.onerror = error => {
+      //   console.error('Failed to read image file', error);
+      // };
+    }
+    
+  };
+
   return (
     <div className='signup d-flex justify-content-center align-items-center' style={{
       background: `url(${log}) no-repeat center/cover`
     }}>
       <form action="" className='signup_form d-flex flex-column gap-2 justify-content-center align-item-center'>
+        <div className='profile_pic text-center'>
+          <IconButton>
+            <Badge
+              overlap="circular"
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+              badgeContent={<Avatar  style={{ height: '22px', width: '22px' , color:'white', backgroundColor:'none'}}><CameraAltIcon sx={{color: 'white', objectFit:'cover'}} /></Avatar>}
+              onClick={() => document.getElementById('image-input').click()}
+            >
+            <AvatarEditor  image={imageSrc} borderRadius={50} width={80}
+              height={80}
+              border={0}
+              style={{borderRadius: '50%', border:'2px solid white'}}
+            />
+            <input id="image-input" type="file" accept="image/*" style={{ display: 'none' }} onChange={handleImageSelect}  />
+            </Badge>
+          </IconButton>
+       
+        </div>
+      
         <div className="name ">
           <Field label="Full Name" name='userName' type="text" onChange={handleformchange}  required />
         </div>

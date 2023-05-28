@@ -18,7 +18,7 @@ const useSignup = () =>{
 
     const doctorCid =[11516000972,10313000983,11608000813,]
 
-    const signup = async (formDetails) =>{
+    const signup = async (formDetails, imageSrc) =>{
         // const displayName = formDetails.displayName
         setError(null)
         setIsPending(true)
@@ -33,6 +33,16 @@ const useSignup = () =>{
                 createdAt :Timestamp.fromDate(new Date())
 
             }
+            // upload picture to 
+            const uploadPath = `profileImage/${user.uid}/${imageSrc.name}`
+            const imgRef = ref(projectStorage, uploadPath)
+
+            await uploadBytes(imgRef, imageSrc).then((snapshot)=>{
+                console.log("Succefully uploaded image ")
+                
+            }).catch(err=>{
+                console.log(err.message)
+            })
             await setDoc(doc(collection(projectFirestore, 'users'), user.uid), userData).then(()=>{
                 console.log("Succesfully upload ")
             }).catch(err=>{
@@ -45,7 +55,6 @@ const useSignup = () =>{
                 setIsPending(false)
                 setError(null)
                 navigate('/login')
-
             }
         }catch(err){
             if (!isCancelled){

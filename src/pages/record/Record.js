@@ -3,11 +3,11 @@ import { Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mate
 import PatientDetails from '../../components/recordComponents/PatientDetails';
 import HealthDetails from '../../components/recordComponents/HealthDetails';
 import Fileupload from '../../components/recordComponents/Fileupload'
+import useFirestore from '../../hooks/useFirestore';
+import { useEffect } from 'react';
 
 export default function Record() {
-
   const [open, setOpen] = useState(false);
-  
   const handleOpen = () => {
     setOpen(true);
   };
@@ -16,26 +16,35 @@ export default function Record() {
     setOpen(false);
   };
 
- 
-
-// initialize various form varaible required for medical record addition
-// for patient
-  const [cid, setCid] = useState('')
-  const [contacNo, setContactNo] =useState('')
-  const [date, setDate] = useState(null)
-  // for priscription
-  const [diagnosis, setDiagnosis] = useState('') // name of dignosis
-  const [medication, setMedication] = useState([]) // array of medication does
-  const [advices, setAdvices] = useState([]) // array of string advices
-  const [file, setFile] = useState('') // array of files
-
+  const {addDocument, response} = useFirestore('record')
   const handleSubmit = (event) => {
     // Handle form submission here
     event.preventDefault();
     // define the medical record data and sent use addDoucment method from the firstore to add an document
-    console.log(cid, contacNo, date, diagnosis, medication, advices, file)
+    // code to add documents
+    addDocument(recordDetials)
     
   };
+  const [recordDetials, setRecordDetials] = useState({
+    patientDetails:[],
+    priscription: [],
+    files:[]
+  })
+  const handleRecordForm = (fieldName, value)=>{
+    setRecordDetials(prevState => {
+      return {
+        ...prevState,
+        [fieldName]: value,
+      }
+    });
+  }
+  useEffect(()=>{
+    // console.log(response.success)
+    if (response.success){
+        setRecordDetials('')
+    }
+}, [response.success])
+  
   return (
     <div style={{zIndex: 6000}} className='record'>
       <Button variant="contained" color="primary" onClick={handleOpen} className='rounded-1'>
@@ -53,9 +62,9 @@ export default function Record() {
           </DialogActions>
           <DialogTitle>Add Record</DialogTitle>
           <DialogContent className=' d-flex flex-column gap-3'>
-            <PatientDetails cid={cid} setCid={setCid} contacNo ={contacNo} setContactNo ={setContactNo} date={date} setDate={setDate}/>
-            <HealthDetails diagnosis={diagnosis} medication={medication} advices={advices} setDiagnosis ={setDiagnosis} setMedication={setMedication} setAdvices = {setAdvices}/>
-            <Fileupload file={file} setFile = {setFile}/>
+            <PatientDetails name='patientDetails' onChange={handleRecordForm}/>
+            <HealthDetails name='priscription' onChange={handleRecordForm}/>
+            <Fileupload name='files' onChange={handleRecordForm}/>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} color="primary" className='rounded-1'>
