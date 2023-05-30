@@ -18,7 +18,7 @@ import Collapse from '@mui/material/Collapse';
 import ExpandLessSharpIcon from '@mui/icons-material/ExpandLessSharp';
 import ExpandMoreSharpIcon from '@mui/icons-material/ExpandMoreSharp';
 
-function Doctor({ openAppointment, toggleAppointmentForm }) {
+function Doctor() {
   const [showAll, setShowAll] = useState(false)
   const [grid, setGrid] = useState(true)
   const handleToggleShowAll = () =>{
@@ -28,7 +28,7 @@ function Doctor({ openAppointment, toggleAppointmentForm }) {
     e.preventDefault()
     setGrid(!grid)
   }
-  //  fetch data from the for now let declare the static data
+  //  fetch data from the for now let declare the static data 
   const doctorList = [
     {imgSrc: 'https://avatars.githubusercontent.com/u/123463210?v=4', doctorName: 'Dr. Tashi', specialist: 'Dentist'},
     {imgSrc: 'https://avatars.githubusercontent.com/u/123463210?v=4', doctorName: 'Dr. Yeshi', specialist: 'Cardiologist'},
@@ -64,8 +64,7 @@ function Doctor({ openAppointment, toggleAppointmentForm }) {
                 imgSrc={doctor.imgSrc}
                 doctorName={doctor.doctorName} 
                 specialist={doctor.specialist} 
-                openAppointment={openAppointment}
-                toggleAppointmentForm={toggleAppointmentForm}
+
                 />
               </Grid>
             ))
@@ -80,8 +79,7 @@ function Doctor({ openAppointment, toggleAppointmentForm }) {
                   imgSrc={doctor.imgSrc} 
                   doctorName={doctor.doctorName} 
                   specialist={doctor.specialist}
-                  openAppointment={openAppointment}
-                  toggleAppointmentForm={toggleAppointmentForm}
+                
                   />
                 </Grid>
               ))

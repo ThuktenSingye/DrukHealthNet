@@ -8,21 +8,24 @@ import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions, IconButton } from '@mui/material';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import TaskAltOutlinedIcon from '@mui/icons-material/TaskAltOutlined';
-
+import useAppointmentContext from '../../hooks/useAppointmentContext';
 import Avatar from '@mui/material/Avatar';
+
+
+// import Typography from '@mui/material/Typography';
+import AppForm from './AppForm';
 function DoctorCard(props) {
     const [isFlipped, setIsFlipped] = useState(false);
-    const [open, setOpen] = useState(false)
-    const handleOpen = (e) =>{
-        e.preventDefault()
-        setOpen(!open)
-        
-    }
+    const {showAppointmentForm,toggleAppointmentForm, appointment} = useAppointmentContext()
+
     const handleFlip = () => {
         setIsFlipped(!isFlipped);
     }
-    const {imgSrc, doctorName, specialist, type, openAppoinment, toggleAppointmentForm} = props
- 
+    const {imgSrc, doctorName, specialist, type} = props
+    const handleScheduleAppointment = () =>{
+        toggleAppointmentForm()
+    }
+
   return (
     //  onMouseEnter={handleFlip} onMouseOut={handleFlip}
      <div >   
@@ -41,7 +44,7 @@ function DoctorCard(props) {
                 <Avatar
                 alt="Remy Sharp"
                 src={imgSrc}
-                sx={{ width: 100, height: 100 }}
+                sx={{ width: 150, height: 150 }}
                 className='mt-2'
                 />
                 <CardContent>
@@ -55,11 +58,13 @@ function DoctorCard(props) {
                 <CardActions>
                     <Button size="small" 
                     className='rounded-2 p-1 mb-1' 
-                    sx={{backgroundColor: '#3A4265', '&:hover': { backgroundColor: '#6859F3' }, color:'white'}}
-                    onClick={toggleAppointmentForm}
+                    sx={{backgroundColor: '#3A4265', '&:hover': { backgroundColor: '#6859F3' }, color:'white', textTransform:'capitalize !important', fontSize: '1rem !important'}}
+                    onClick={handleScheduleAppointment}
                     >
-                        Schedule sAppointment
+                        Schedule Appointment
                     </Button>
+                    {showAppointmentForm  && <AppForm />
+                    }
                 </CardActions>
             </Card>
             <Card >
