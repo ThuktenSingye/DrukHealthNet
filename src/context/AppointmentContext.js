@@ -16,6 +16,7 @@ export const AppointmentProvider = ({children}) =>{
     const appointmentContext = {
         showAppointmentForm,
         toggleAppointmentForm, 
+        setAppointment,
         appointment
     }
     return(
