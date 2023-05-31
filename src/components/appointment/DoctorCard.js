@@ -10,21 +10,34 @@ import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import TaskAltOutlinedIcon from '@mui/icons-material/TaskAltOutlined';
 import useAppointmentContext from '../../hooks/useAppointmentContext';
 import Avatar from '@mui/material/Avatar';
-
-
+import { useEffect } from 'react';
+import { projectStorage } from '../../firebase/config';
 // import Typography from '@mui/material/Typography';
 import AppForm from './AppForm';
+import {ref, getDownloadURL} from 'firebase/storage'
 function DoctorCard(props) {
     const [isFlipped, setIsFlipped] = useState(false);
     const {showAppointmentForm,toggleAppointmentForm, appointment} = useAppointmentContext()
+   
 
     const handleFlip = () => {
         setIsFlipped(!isFlipped);
     }
-    const {imgSrc, doctorName, specialist, type} = props
+    const {doctorName, specialist, type, id, description} = props
     const handleScheduleAppointment = () =>{
         toggleAppointmentForm()
     }
+    const [imageUrl, setImageUrl] = useState('')
+    useEffect(()=>{
+    // const unsub = 
+    getDownloadURL(ref(projectStorage,`docAvatar/${id}/3.jpeg`))
+    .then((url)=>{
+        setImageUrl(url)
+    }).catch(err=>{
+        console.log(err.message)
+    })
+
+     },[id])
 
   return (
     //  onMouseEnter={handleFlip} onMouseOut={handleFlip}
@@ -43,7 +56,7 @@ function DoctorCard(props) {
                 }
                 <Avatar
                 alt="Remy Sharp"
-                src={imgSrc}
+                src={imageUrl}
                 sx={{ width: 150, height: 150 }}
                 className='mt-2'
                 />
@@ -76,10 +89,7 @@ function DoctorCard(props) {
                         {specialist}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod,
-                       nunc a ullamcorper congue, urna elit malesuada odio, a venenatis est mi et odio.
-                        Ut aliquet enim augue, a aliquet neque vulputate ac. Morbi sodales malesuada elit
-                        eu bibendum. Fusce eget lorem massa.
+                     {description.expYear}
                     </Typography>
                 </CardContent>
                 <CardActions>
