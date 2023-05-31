@@ -3,6 +3,7 @@ import {createUserWithEmailAndPassword, updateProfile} from 'firebase/auth'
 import {ref, uploadBytes, getDownloadURL} from 'firebase/storage'
 import { projectAuth, projectStorage, projectFirestore } from "../firebase/config"
 import { useNavigate } from "react-router-dom"
+import {} from 'firebase/firestore'
 
 // import context for authentication
 import useAuthContext from "./useAuthContext"
@@ -15,9 +16,7 @@ const useSignup = () =>{
     const [isPending, setIsPending] = useState(false)
     const {dispatch} = useAuthContext()
     const navigate = useNavigate()
-
-    const doctorCid =[11516000972,10313000983,11608000813,]
-
+    // doctor id 
     const signup = async (formDetails, imageSrc) =>{
         // const displayName = formDetails.displayName
         setError(null)
@@ -26,17 +25,14 @@ const useSignup = () =>{
             const res = await createUserWithEmailAndPassword(projectAuth, formDetails.email, formDetails.password)
             const user = res.user
             //  store user info
-
             const userData = {
                 ...formDetails,
-                type: doctorCid.includes(formDetails.cid) ? 'doctor': 'patient',
+                type: 'patient',
                 createdAt :Timestamp.fromDate(new Date())
-
             }
             // upload picture to 
             const uploadPath = `profileImage/${user.uid}/${imageSrc.name}`
             const imgRef = ref(projectStorage, uploadPath)
-
             await uploadBytes(imgRef, imageSrc).then((snapshot)=>{
                 console.log("Succefully uploaded image ")
                 
@@ -48,9 +44,7 @@ const useSignup = () =>{
             }).catch(err=>{
                 throw new Error('Error while updating')
             })
-
             dispatch({type:'SIGN_UP', payload: user})
-
             if (!isCancelled){
                 setIsPending(false)
                 setError(null)
