@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState , useNavigate} from 'react'
 import useAppointmentContext from '../../hooks/useAppointmentContext'
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
@@ -12,13 +12,18 @@ import InputLabel from '@mui/material/InputLabel';
 import CancelIcon from '@mui/icons-material/Cancel';
 import Typography from '@mui/material/Typography';
 import './AppForm.css'
+import {Timestamp} from 'firebase/firestore'
+import useFirestore from '../../hooks/useFirestore';
 
-function AppForm() {
+function AppForm(props) {
+    // const navigate = useNavigate()
     const {showAppointmentForm,toggleAppointmentForm, appointment, setAppointment, } = useAppointmentContext()
     const [location, setLocation] = useState('')
     const [date, setDate] = useState('')
     const [reason, setReason] = useState('')
     const [note, setNote] = useState('')
+    const {id, patientId, type} = props
+    const {addDocument, response} = useFirestore(type==='patient'?'patientAppointment':'doctorAppointment')
     const style = {
         position: 'absolute',
         top: '50%',
@@ -30,7 +35,6 @@ function AppForm() {
         zIndex: 1000,
         p: 4,
       };
-
      function handleChange(){
         const appointmentFormDetails ={
             location:location,
@@ -43,9 +47,22 @@ function AppForm() {
      }
     //  handleubmit to add this appointment to appointment database by default it stype would be request
      
-     const handleSubmit = (e)=>{
+     const handleSubmit = async (e)=>{
         e.preventDefault()
-        console.log("Appointment", appointment)
+        const appointmentData ={
+            patient_Id: patientId,
+            doctor_Id: id,
+            status:'request',
+            ...appointment,
+            createdAt :Timestamp.fromDate(new Date())
+        }
+        await addDocument(appointmentData)
+        // code to add appointment to the firebase you can use useFirestore
+        if (!response.error){
+            // navigate('/')// not error redirect to dashboard
+            console.log("Succefully added to the firebase")
+            toggleAppointmentForm()
+          }
      }
 
 
