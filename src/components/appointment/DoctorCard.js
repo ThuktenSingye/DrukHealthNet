@@ -15,11 +15,15 @@ import { projectStorage } from '../../firebase/config';
 // import Typography from '@mui/material/Typography';
 import AppForm from './AppForm';
 import {ref, getDownloadURL} from 'firebase/storage'
+import useAuthContext from '../../hooks/useAuthContext';
+import {collection, doc, onSnapshot} from 'firebase/firestore'
+import { projectFirestore } from '../../firebase/config';
 function DoctorCard(props) {
     const [isFlipped, setIsFlipped] = useState(false);
+    const [userInfo, setUserInfo] = useState(null)
     const {showAppointmentForm,toggleAppointmentForm, appointment} = useAppointmentContext()
-   
-
+    const {user} = useAuthContext()
+    
     const handleFlip = () => {
         setIsFlipped(!isFlipped);
     }
@@ -29,16 +33,22 @@ function DoctorCard(props) {
     }
     const [imageUrl, setImageUrl] = useState('')
     useEffect(()=>{
-    // const unsub = 
-    getDownloadURL(ref(projectStorage,`docAvatar/${id}/3.jpeg`))
-    .then((url)=>{
-        setImageUrl(url)
-    }).catch(err=>{
-        console.log(err.message)
-    })
+        getDownloadURL(ref(projectStorage,`docAvatar/${id}/3.jpeg`))
+        .then((url)=>{
+            setImageUrl(url)
+        }).catch(err=>{
+            console.log(err.message)
+        })
 
-     },[id])
+        const unsub = onSnapshot(doc(collection(projectFirestore, 'users'), user.uid), (snapshot)=>{
+            if(!snapshot.empty){
+                setUserInfo(snapshot.data())
+            }
+        })
+        return ()=> unsub
 
+
+     },[id, user.uid])
   return (
     //  onMouseEnter={handleFlip} onMouseOut={handleFlip}
      <div >   
@@ -76,7 +86,7 @@ function DoctorCard(props) {
                     >
                         Schedule Appointment
                     </Button>
-                    {showAppointmentForm  && <AppForm />
+                    {showAppointmentForm  && <AppForm id={id} patientId={user.uid} type={userInfo.type}/>
                     }
                 </CardActions>
             </Card>
