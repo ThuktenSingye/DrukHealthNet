@@ -1,7 +1,7 @@
 import { useState , useEffect } from "react";
 import { projectAuth } from "../firebase/config";
 import useAuthContext from "./useAuthContext";
-import {signInWithEmailAndPassword} from 'firebase/auth'
+import {getIdToken, signInWithEmailAndPassword} from 'firebase/auth'
 
 
 const useLogin= () =>{
@@ -12,7 +12,8 @@ const useLogin= () =>{
     const login= async (loginDetials) =>{
         setError(null)
         setIsPending(true)
-        await signInWithEmailAndPassword(projectAuth, loginDetials.email, loginDetials.password).then(()=>{
+        await signInWithEmailAndPassword(projectAuth, loginDetials.email, loginDetials.password).then((userCre)=>{
+           
             console.log("Succesfully login")
             setIsPending(false)
             setError(null)

@@ -20,5 +20,6 @@ const app = initializeApp(firebaseConfig)
 const projectFirestore = getFirestore(app)
 const projectAuth = getAuth(app)
 const projectStorage = getStorage(app)
+// let 
 
 export {projectFirestore ,projectAuth, projectStorage}

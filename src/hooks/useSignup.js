@@ -48,7 +48,7 @@ const useSignup = () =>{
             if (!isCancelled){
                 setIsPending(false)
                 setError(null)
-                navigate('/login')
+                // navigate('/login')
             }
         }catch(err){
             if (!isCancelled){

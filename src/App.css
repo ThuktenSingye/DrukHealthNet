@@ -7,8 +7,12 @@ body{
   scroll-behavior: smooth;
   overflow-x: hidden;
 }
-.app{
+.fixed{
   height: 100vh;
+  overflow-y: hidden;
+}
+.app{
+  /* height: 100vh; */
   overflow-y: hidden;
 }
 .home-content{

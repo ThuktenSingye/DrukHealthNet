@@ -5,30 +5,32 @@ import HealthDetails from '../../components/recordComponents/HealthDetails';
 import Fileupload from '../../components/recordComponents/Fileupload'
 import useFirestore from '../../hooks/useFirestore';
 import { useEffect } from 'react';
-
-export default function Record() {
+import useAuthContext from '../../hooks/useAuthContext';
+export default function Record({type}) {
   const [open, setOpen] = useState(false);
+  const {user} = useAuthContext()
   const handleOpen = () => {
     setOpen(true);
   };
-
   const handleClose = () => {
     setOpen(false);
   };
 
   const {addDocument, response} = useFirestore('record')
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     // Handle form submission here
     event.preventDefault();
     // define the medical record data and sent use addDoucment method from the firstore to add an document
     // code to add documents
-    addDocument(recordDetials)
+    // console.log(recordDetials)
+    await addDocument(recordDetials)
     
   };
   const [recordDetials, setRecordDetials] = useState({
     patientDetails:[],
     priscription: [],
-    files:[]
+    files:[],
+    doctorId: user?.uid
   })
   const handleRecordForm = (fieldName, value)=>{
     setRecordDetials(prevState => {
@@ -47,13 +49,22 @@ export default function Record() {
   
   return (
     <div style={{zIndex: 6000}} className='record'>
-      <Button variant="contained" color="primary" onClick={handleOpen} className='rounded-1'>
-        Add Record
-      </Button>
-      <Button variant="contained" color="secondary" className='rounded-0'>
-        View Records
-      </Button>
-      <Dialog open={open} onClose={handleClose} style={{ marginTop: "5rem" }}  fullScreen>
+
+      {type==='patient'? 
+        <Button variant="contained"  className='rounded-1' >
+          View Records
+        </Button>:
+      <>
+        <Button variant="contained"  onClick={handleOpen} className='rounded-1'>
+          Add Record
+        </Button>
+        <Button variant="contained"  className='rounded-1' >
+          View Records
+        </Button>
+      </>
+      }
+
+      <Dialog open={open} onClose={handleClose} style={{ marginTop: "5rem" }}  fullScreen className='app-wrapper'>
         <form onSubmit={handleSubmit} className='record_form' style={{margin: '60px auto', Width: '1920px', backgroundColor:'#F4F7FC',  borderRadius: '1rem'}}>
           <DialogActions>
               <Button onClick={handleClose} color="primary" className='rounded-1'>
