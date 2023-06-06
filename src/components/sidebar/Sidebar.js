@@ -10,7 +10,7 @@ import Divider from '@mui/material/Divider';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import { NavLink, Link } from 'react-router-dom';
-function Sidebar({showSidebar, setShowSidebar, toggleSidebar}) {
+function Sidebar({showSidebar, setShowSidebar, toggleSidebar, type}) {
    
   return (
     <div className={`sidebar ${showSidebar? 'show':'no'}`}>
@@ -21,7 +21,7 @@ function Sidebar({showSidebar, setShowSidebar, toggleSidebar}) {
             <ApprovalIcon />
           </Avatar>
         </ListItemAvatar>
-        <NavLink to='/appointment' style={{margin: '0', padding:'0',textDecoration:'none', color:'black'}}><ListItemText primary='Appointment'/></NavLink>
+        <NavLink to={type==='patient' ? '/dashboard/appointment':'/dashboard/doctorApp'} style={{margin: '0', padding:'0',textDecoration:'none', color:'black'}}><ListItemText primary='Appointment'/></NavLink>
       </ListItem>
       <Divider variant="inset" component="li" />
       <ListItem button className='rounded-0 d-flex justify-content-start'>

@@ -1,3 +1,4 @@
+
 import React, { useState , useNavigate} from 'react'
 import useAppointmentContext from '../../hooks/useAppointmentContext'
 import Backdrop from '@mui/material/Backdrop';
@@ -14,16 +15,20 @@ import Typography from '@mui/material/Typography';
 import './AppForm.css'
 import {Timestamp} from 'firebase/firestore'
 import useFirestore from '../../hooks/useFirestore';
-
-function AppForm(props) {
-    // const navigate = useNavigate()
+import useAuthContext from '../../hooks/useAuthContext';
+import useFetch from '../../hooks/useFetch';
+import { useAsyncError } from 'react-router-dom';
+import UpdateIcon from '@mui/icons-material/Update';
+function DoctorAppForm() {
     const {showAppointmentForm,toggleAppointmentForm, appointment, setAppointment, } = useAppointmentContext()
+    const {user} = useAuthContext()
     const [location, setLocation] = useState('')
     const [date, setDate] = useState('')
     const [reason, setReason] = useState('')
     const [note, setNote] = useState('')
-    const {id, patientId, type} = props
-    const {addDocument, response} = useFirestore('patientAppointment')
+    const [cid, setCid] = useState('')
+    // const {id, patientId, type} = props
+    const {addDocument, updateDocument, response} = useFirestore('doctorAppointment')
     const style = {
         position: 'absolute',
         top: '50%',
@@ -35,10 +40,11 @@ function AppForm(props) {
         zIndex: 1000,
         p: 4,
       };
-     function handleChange(){
+    function handleChange(){
         const appointmentFormDetails ={
             location:location,
             date: date,
+            cid: cid,
             reason: reason,
             note:note
         }
@@ -46,19 +52,30 @@ function AppForm(props) {
         // handleSubmit
      }
     //  handleubmit to add this appointment to appointment database by default it stype would be request
+    const {isPending, error, data} = useFetch({collect:'users'});
      
      const handleSubmit = async (e)=>{
         e.preventDefault()
-        const appointmentData = 
-            {
-            patient_Id: patientId,
-            doctor_Id: id,
-            status:'request',
-            ...appointment,
-            createdAt :Timestamp.fromDate(new Date())
+        // based on cid value you need ot fetch the patient id
+        if(data && data.length > 0){
+            const patientUser = data.filter((users)=>users.cid===cid) // check if user cid matchec the enter cid
+            
+            const id = patientUser[0].id // extract id which will be used a patient 
+            if (id){
+                // console.log("Patient ifm insdie doctorform", id)
+                const appointmentData = 
+                    {
+                        patient_Id: id,
+                        doctor_Id: user.uid,
+                        status:'request',
+                        ...appointment,
+                        createdAt :Timestamp.fromDate(new Date())
+                    };
+                await addDocument(appointmentData)                
+            }else{
+                console.log("The user is not registered in the appointment")
             }
-        
-        await addDocument(appointmentData)
+        }
         // code to add appointment to the firebase you can use useFirestore
         if (!response.error){
             // navigate('/')// not error redirect to dashboard
@@ -66,12 +83,42 @@ function AppForm(props) {
             toggleAppointmentForm()
           }
      }
-    //  console.log("Appotinet add", patientId)
 
+     const handleUpdate = async (e)=>{
+        e.preventDefault()
+        // based on cid value you need ot fetch the patient id
+        if(data && data.length > 0){
+            const patientUser = data.filter((users)=>users.cid===cid) // check if user cid matchec the enter cid
+            
+            const id = patientUser[0].id // extract id which will be used a patient 
+            if (id){
+                // console.log("Patient ifm insdie doctorform", id)
+                const appointmentData = 
+                    {
+                        patient_Id: id,
+                        doctor_Id: user.uid,
+                        status:'request',
+                        ...appointment,
+                        createdAt :Timestamp.fromDate(new Date())
+                    };
+                await updateDocument(appointmentData, patientUser[0].id)                
+            }else{
+                console.log("The user is not registered in the appointment")
+            }
+        }
+        // code to add appointment to the firebase you can use useFirestore
+        if (!response.error){
+            // navigate('/')// not error redirect to dashboard
+            console.log("Succefully updated to the firebase")
+            toggleAppointmentForm()
+          }
+        // console.log("Handle Update")
+
+     }
 
   return (
-    <div className='appForm'>
-         <Modal
+    <div className='doctorAppForm'>
+        <Modal
             aria-labelledby="transition-modal-title"
             aria-describedby="transition-modal-description"
             open={showAppointmentForm}
@@ -116,6 +163,18 @@ function AppForm(props) {
                             onBlur={handleChange}/>
                         </div>
                     </div>
+                    <div className='cid'>
+                        <InputLabel htmlFor='reason-input' sx={{color:'#3A4265 '}}>CID:</InputLabel>
+                        <TextField
+                            id='reason-input'
+                            label="CID"
+                            variant='outlined'
+                            className='mb-2'
+                            value={cid}
+                            onChange={(e)=>setCid(e.target.value)}  
+                            onBlur={handleChange}
+                        />
+                    </div>
                    
                     <div className='reason'>
                         <InputLabel htmlFor='reason-input' sx={{color:'#3A4265 '}}>Reason:</InputLabel>
@@ -129,6 +188,7 @@ function AppForm(props) {
                             onBlur={handleChange}
                         />
                     </div>
+
                     <div className='note'>
                         <InputLabel htmlFor='note-input' sx={{color:'#3A4265 '}}>Note:</InputLabel>
                         <TextField
@@ -147,6 +207,13 @@ function AppForm(props) {
                     </div>
                     <div className='d-flex justify-content-end gap-2 mt-3'>
                     <Button sx={{textTransform:'capitalize !important', alignSelf: 'end !important', backgroundColor:'#F4F7FC !important', color:'#6859F3  !important'}} 
+                        className='rounded-3 ' 
+                        onClick={handleUpdate}
+                        >
+                        <UpdateIcon className='me-1'/>
+                        {/* <CancelIcon className='me-1'/> */}
+                        Update</Button>
+                        <Button sx={{textTransform:'capitalize !important', alignSelf: 'end !important', backgroundColor:'#F4F7FC !important', color:'#6859F3  !important'}} 
                         className='rounded-3 ' 
                         onClick={toggleAppointmentForm}
                         >
@@ -169,4 +236,4 @@ function AppForm(props) {
   )
 }
 
-export default AppForm
+export default DoctorAppForm

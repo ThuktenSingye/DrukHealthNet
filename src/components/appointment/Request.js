@@ -12,39 +12,48 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Unstable_Grid2';
 import DoctorCard from './DoctorCard';
-import AppsIcon from '@mui/icons-material/Apps';
-import DensityMediumIcon from '@mui/icons-material/DensityMedium';
+import useAuthContext from '../../hooks/useAuthContext';
 import './Request.css'
+import useFetch from '../../hooks/useFetch';
+import { useEffect } from 'react';
+import PatientCard from './PatientCard';
+
 function Request({type}) {
   const [grid, setGrid] = useState(true)
-  
+  const {user} = useAuthContext()
+  const [appRequest, setAppRequest] = useState([])
+  // console.log("Currently login user", user)
   const handleDisplay = (e)=>{
     e.preventDefault()
     setGrid(!grid)
   }
-  //  fetch data from the for now let declare the static data
-  const doctorList = [
-    {imgSrc: 'https://avatars.githubusercontent.com/u/123463210?v=4', doctorName: 'Dr. Tashi', specialist: 'Dentist'},
-    {imgSrc: 'https://avatars.githubusercontent.com/u/123463210?v=4', doctorName: 'Dr. Yeshi', specialist: 'Cardiologist'},
-    {imgSrc: 'https://avatars.githubusercontent.com/u/123463210?v=4', doctorName: 'Dr. Tshering', specialist: 'Gynecologist'},
-    {imgSrc: 'https://avatars.githubusercontent.com/u/123463210?v=4', doctorName: 'Dr. Lama', specialist: 'Pediatrician'},
-    {imgSrc: 'https://avatars.githubusercontent.com/u/123463210?v=4', doctorName: 'Dr. Dorji', specialist: 'Surgeon'},
-    {imgSrc: 'https://avatars.githubusercontent.com/u/123463210?v=4', doctorName: 'Dr. Singye', specialist: 'Dentist'}
-  ]
+  //  look for patient appointment and see if the the login uid == appointet uid. if so display it on the
+  const {isPending, error, data} = useFetch({collect:'patientAppointment'})
+  
+  useEffect(()=>{
+
+    if (data && data.length > 0) { // Check if data is not null and has at least one element
+      const filteredAppointments = data.filter((appointment) => appointment.doctor_Id=== user?.uid); // check if the doctor id in appointmentis same as that of user uid
+      const statusFiltered = filteredAppointments.filter((appointment)=>appointment.status==='request') // if so check the filtered element for type reques
+      setAppRequest(statusFiltered);
+    }
+  },[data])
+  useEffect(()=>{
+    // import doc of user id
+  },[])
+  // console.log("ds", appRequest)
+
+
   return (
     <div className='request '>
-        {/* <div className='d-flex justify-content-between align-items-center me-5 ms-5'>
-          <div>
-            <DensityMediumIcon/>
-            <AppsIcon />
-          </div>
-        </div> */}
+       
         {grid && 
           <Grid container spacing={{ xs: 2, md: 10 }} className='p-5 mt-2' columns={{ xs: 1, sm: 8, md: 12 }}> 
-          {
-            doctorList.map((doctor, index)=>(
+          { appRequest && 
+            appRequest.map((patient, index)=>(
               <Grid item xs={12} sm={6} md={3} lg={4} key={index} >
-                <DoctorCard imgSrc={doctor.imgSrc} doctorName={doctor.doctorName} specialist={doctor.specialist} type={type}/>
+                {/* <DoctorCard imgSrc={doctor.name} doctorName={doctor.type} specialist={doctor.specialist} type={type}/> */}
+                <PatientCard patient={patient}/>
               </Grid>
             ))
           }

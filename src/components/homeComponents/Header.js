@@ -13,8 +13,15 @@ import { Icon, IconButton } from '@material-ui/core';
 import Nav from 'react-bootstrap/Nav';
 import Badge from '@material-ui/core/Badge';
 import Dropdown from 'react-bootstrap/Dropdown';
+// import Button
+import { Button } from '@mui/material';
+import useAuthContext from '../../hooks/useAuthContext';
+import useLogout from '../../hooks/useLogOut'
 function Header({toggleSidebar}) {
- 
+    const {isPending, error ,logout} = useLogout()
+    const handleLogout = ()=>{
+        logout()
+    }
   return (
    <div className='header container-fluid d-flex justify-content-between align-items-center p-1 bg-white position-sticky top-0 start-0 navbar-light shadow-sm '>
     <div className="header_left d-flex align-items-center ms-5">
@@ -61,7 +68,10 @@ function Header({toggleSidebar}) {
                 <Dropdown.Menu>
                     <Dropdown.Item href="#/action-1">Profile</Dropdown.Item>
                     <Dropdown.Item href="#/action-2">Medical Record</Dropdown.Item>
-                    <Dropdown.Item href="#/action-3">Log out</Dropdown.Item>
+                    <Button onClick={handleLogout}>
+                        <Dropdown.Item >Log out</Dropdown.Item>
+                    </Button>
+                    {/* <Dropdown.Item href="#/acti">Log out</Dropdown.Item> */}
                 </Dropdown.Menu>
             </Dropdown>
         </div>

@@ -29,17 +29,17 @@ import Detail from './Detail';
 import useViewContext from '../../hooks/useViewContext';
 import { NavLink } from 'react-router-dom';
 
-function AppRequest({type}) {
-  const [showAll, setShowAll] = useState(false)
+function AppointmentFrom({type}) {
+    const [showAll, setShowAll] = useState(false)
   const [appRequest, setAppRequest] = useState([])
   const [userInfo, setUserInfo] = useState([])
   const [multipleReq, setMultipleReq] = useState([])
-
   const { showDetail,toggleShowDetail, setShowDetail} = useViewContext()
-  const {deleteDocument,  updateDocument, response} = useFirestore(type ==='patient'?'patientAppointment':'doctorAppointment')
+  const {deleteDocument,  updateDocument, response} = useFirestore('doctorAppointment')
+//   const {deleteDocument, updateDocument, response} = useFirestore('patientAppointment')
 
   const {showAppointmentForm,toggleAppointmentForm, appointment} = useAppointmentContext()
-  const {isPending, error, data} = useFetch(type ==='patient'?{collect:'patientAppointment'}:{collect:'doctorAppointment'})
+  const {isPending, error, data} = useFetch({collect:'doctorAppointment'})
   const handleScheduleAppointment = () =>{
     toggleAppointmentForm()
   }
@@ -53,14 +53,14 @@ function AppRequest({type}) {
     if (appRequest && appRequest.length > 0) {
       const docs= []
       const unsubscribers = appRequest.map((req) => {
-        return onSnapshot(doc(collection(projectFirestore, type==='patient'?'doctors':'users'), type==='patient' ? req.doctor_Id:req.patient_Id), (snapshot) => {
+        return onSnapshot(doc(collection(projectFirestore, 'doctors'),  req.doctor_Id), (snapshot) => {
           if (snapshot.exists) {
             
             const reinfo = {
               
               docId:req.id,
-              id: type==='patient'? req.doctor_Id: req.patient_Id,
-              date: type==='patient'? req.date:'',
+              id: req.doctor_Id,
+              date: req.date,
               data: snapshot.data()
             };
             docs.push(reinfo)
@@ -73,20 +73,29 @@ function AppRequest({type}) {
         unsubscribers.forEach((unsub) => unsub());
       };
     }
-  }, [appRequest, type]);
+  }, [appRequest]);
   // const { imgUrls } = useAvatar({ ids: appRequest.map((request) => request.doctor_Id) });
   const handleToggleShowAll = () =>{
     setShowAll(!showAll)
   }
-  const handleUpdate=  (id)=>{
+  const handleUpdate= async (id)=>{
     // e.preventDefault() 
-    toggleAppointmentForm();
+    // e.preventDefault()
+        // update the status to approved
+        const updates= {
+            status:'approved'
+        }
+        await updateDocument(id,updates)
+        if(!response.error){
+            console.log("Succesfully updated")
+        }
+    // update the status
     // console.log(id)
 
   } 
   const handleCancel = async (id)=>{
     // e.preventDefault()
-    await deleteDocument(id)
+    // await deleteDocument(id)
     console.log('App reques', appRequest)
     console.log("multiple", multipleReq)
     // console.log("App request", appRequest)
@@ -99,14 +108,8 @@ function AppRequest({type}) {
   }
   
   return (
-    
-    <div className='appRequest mb-5'>
-      {type==='patient'? <>
-        <h1>Outgoing Request</h1>
-      </>:<>
-      <h1>Your Request</h1>
-      </>}
-      
+    <div>
+         <h1>Incoming Request</h1>
         <List className='d-flex flex-column justify-content-between align-item-center gap-3'>
           {
             multipleReq.slice(0, showAll? 0:2).map((request, index)=>(
@@ -127,7 +130,7 @@ function AppRequest({type}) {
                   primary={request.data && type==='doctor'? request.data.date: request.date}
                   // to={`/appointment/${id}`
                 />
-                <NavLink to={type==='doctor'?`/dashboard/doctorApp/${request.docId}`:`/dashboard/appointment/${request.docId}`} >
+                <NavLink to={`/dashboard/appointment/${request.docId}`} >
                   <Button onClick={handleView}>View Detail</Button>
                 </NavLink>
                 {showDetail && <Detail type={type}/>}
@@ -167,10 +170,10 @@ function AppRequest({type}) {
                   primary={request.data && type==='doctor'? request.data.date: request.date}
                   // to={`/appointment/${id}`
                 />
-                <NavLink to={type==='doctor'?`/dashboard/doctorApp/${request.docId}`:`/dashboard/appointment/${request.docId}`} >
+                <NavLink to={`/dashboard/appointment/${request.docId}`} >
                   <Button onClick={handleView}>View Detail</Button>
                 </NavLink>
-                {showDetail && <Detail type={type}/>}
+                {showDetail && <Detail type='patient'/>}
 
                 <ListItemIcon className='d-flex gap-2'>
                   <IconButton onClick={(e)=>handleCancel(request.docId)}>
@@ -221,8 +224,10 @@ function AppRequest({type}) {
                 <span>Show More</span>
               </>
             )}
+
           </Button>
-            {type === 'doctor' && 
+
+            {/* {type === 'doctor' && 
               <Button className='rounded-3 mt-2 mb-2 showbtn  ' onClick={handleScheduleAppointment}>
                 <>
                 <EditCalendarIcon/>
@@ -230,12 +235,11 @@ function AppRequest({type}) {
                 </>
               </Button>
             }
-            {showAppointmentForm  && <DoctorAppForm/> }
+            {showAppointmentForm  && <DoctorAppForm/> } */}
         </div>
 
-         
     </div>
   )
 }
 
-export default AppRequest
+export default AppointmentFrom

@@ -15,7 +15,7 @@ import useFetch from '../../hooks/useFetch';
 // import { useEffect } from "react";
 // import { projectFirestore } from '../../firebase/config';
 // import {collection, onSnapshot} from 'firebase/firestore'
-function Doctor() {
+function Doctor({type}) {
   const [showAll, setShowAll] = useState(false)
   const [grid, setGrid] = useState(true)
 
@@ -28,7 +28,7 @@ function Doctor() {
   }
 
   const {isPending, error, data} = useFetch({collect:'doctors'})
-
+  // console.log("Doctor,", data)
 
   return (
     <div className='doctor m-5'>
@@ -48,7 +48,7 @@ function Doctor() {
               <Grid item xs={12} sm={6} md={3} lg={4} key={index} >
                 <DoctorCard 
                 // imgSrc={doctor.imgSrc}
-                id={doctor.id}
+                did={doctor.id}
                 doctorName={doctor.name} 
                 specialist={doctor.specialization} 
                 description={doctor.description}
